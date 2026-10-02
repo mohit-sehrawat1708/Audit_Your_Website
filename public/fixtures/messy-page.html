@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1">
+<title></title>
+<style>
+  body { font-family: sans-serif; background: #ffffff; color: #333333; margin: 20px; }
+  :root { --muted: #999999; }
+  .muted { color: var(--muted); }
+  .promo-title { color: #b8b8b8; font-size: 30px; }
+  .warn-text { color: #777777; }
+  a { color: #4a90d9; }
+  a:focus { outline: none; }
+  .btn-thing { cursor: pointer; }
+  @media screen and (min-width: 600px) {
+    .footer-note { color: #cccccc; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <img src="/logo.png">
+  <a href="/home"><img src="home-icon.png" alt=""></a>
+</header>
+<nav>
+  <a href="#section-a">Home</a>
+  <a>Broken link</a>
+</nav>
+<main id="main">
+  <h1>Test Page</h1>
+  <h3>Skipped a heading level</h3>
+  <p class="muted">This paragraph has low contrast text for testing.</p>
+  <p class="promo-title">Big pale headline</p>
+  <div class="btn-thing" onclick="alert('hi')">Click me div</div>
+  <div tabindex="7">Positive tabindex div</div>
+  <img src="chart.png" alt="chart.png">
+  <img src="hero.png" alt="image">
+  <form>
+    <input type="text" name="email" id="email">
+    <select name="plan"><option>Basic</option></select>
+    <button></button>
+    <input type="text" id="dup">
+  </form>
+  <p class="warn-text">Gray text sitting just below the AA threshold.</p>
+  <a href="/learn">Learn more</a>
+  <a href="javascript:void(0)">JS link</a>
+  <iframe src="about:blank"></iframe>
+  <div aria-hidden="true"><a href="#x">Hidden but focusable link</a></div>
+  <input type="text" id="dup">
+  <span onmouseover="hi()">Hover only span</span>
+</main>
+<footer>
+  <p class="footer-note">Footer note with very low contrast.</p>
+</footer>
+</body>
+</html>

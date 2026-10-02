@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AccessLens — Website Accessibility Auditor</title>
+<meta name="description" content="Paste a URL and get an accessibility report: contrast issues, missing alt text, keyboard navigation problems — each with a concrete fix.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='9' fill='none' stroke='%231f6feb' stroke-width='2.5'/%3E%3Ccircle cx='12' cy='12' r='3.5' fill='%231f6feb'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="topbar">
+  <a class="brand" href="./" aria-label="AccessLens home">
+    <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
+      <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.5"></circle>
+      <circle cx="12" cy="12" r="3.5" fill="currentColor"></circle>
+    </svg>
+    <span>Access<em>Lens</em></span>
+  </a>
+  <span class="topbar-tag">Website Accessibility Auditor</span>
+</header>
+
+<main id="main">
+  <section class="hero" id="hero">
+    <h1>Check any page for accessibility issues — <span class="accent">before your users do.</span></h1>
+    <p class="lede">Paste a URL. Get a clear report on color contrast, missing alt text and keyboard
+    navigation, each with a concrete fix.</p>
+
+    <form id="audit-form" class="audit-form" novalidate>
+      <label for="url" class="sr-only">Website URL</label>
+      <div class="input-wrap">
+        <svg class="input-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"></circle>
+          <path d="M3 12h18M12 3c2.5 2.6 3.9 5.7 3.9 9S14.5 18.4 12 21c-2.5-2.6-3.9-5.7-3.9-9S9.5 5.6 12 3z"
+                fill="none" stroke="currentColor" stroke-width="2"></path>
+        </svg>
+        <input id="url" name="url" type="text" inputmode="url" autocomplete="url" spellcheck="false"
+               placeholder="https://example.com" aria-describedby="url-hint">
+      </div>
+      <button type="submit" id="scan-btn" class="btn btn-primary">Scan page</button>
+    </form>
+    <p id="url-hint" class="hint">Everything runs locally: the page is fetched once by this server, parsed, and
+    checked. Nothing is stored.</p>
+
+    <div class="samples" aria-label="Sample pages">
+      <span>Try:</span>
+      <button type="button" class="chip" data-url="https://example.com">example.com</button>
+      <button type="button" class="chip" id="chip-fixture">a page full of planted issues</button>
+    </div>
+
+    <div id="status" class="status" role="status" aria-live="polite"></div>
+
+    <ul class="features">
+      <li>
+        <h2><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3.5 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Contrast</h2>
+        <p>Text-vs-background ratios checked against WCAG AA, with a suggested replacement color.</p>
+      </li>
+      <li>
+        <h2><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="10" r="1.6" fill="currentColor"/><path d="M5.5 16.5l4-4 3 3 2.5-2.5 3.5 3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Alt text</h2>
+        <p>Images, image links and image buttons missing meaningful alternative text.</p>
+      </li>
+      <li>
+        <h2><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M6.5 10h.01M10.5 10h.01M14.5 10h.01M18 10h.01M7.5 14h9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Keyboard</h2>
+        <p>Tab order, focus visibility and click handlers that ignore the keyboard.</p>
+      </li>
+    </ul>
+  </section>
+
+  <section id="results" class="results" hidden tabindex="-1">
+    <div class="results-head">
+      <div class="score-wrap">
+        <div class="ring-wrap" id="ring-wrap">
+          <svg class="ring" id="ring" viewBox="0 0 120 120" role="img" aria-label="Accessibility score">
+            <circle class="ring-track" cx="60" cy="60" r="52"></circle>
+            <circle class="ring-value" id="ring-value" cx="60" cy="60" r="52" pathLength="100"
+                    stroke-dasharray="100" stroke-dashoffset="100"></circle>
+          </svg>
+          <div class="ring-number"><span id="score-num">–</span><span class="ring-denom">/100</span></div>
+        </div>
+        <div class="score-meta">
+          <div class="score-label">Accessibility score</div>
+          <div id="audited-url" class="audited-url"></div>
+          <div id="audit-stats" class="audit-stats"></div>
+        </div>
+      </div>
+      <div class="head-actions">
+        <button class="btn btn-ghost" id="copy-btn" type="button">Copy report</button>
+        <button class="btn btn-ghost" id="json-btn" type="button">Download JSON</button>
+        <button class="btn btn-primary" id="new-btn" type="button">New scan</button>
+      </div>
+    </div>
+
+    <div class="summary" id="summary"></div>
+    <div class="filters" id="filters" role="group" aria-label="Filter by category"></div>
+    <div id="issues"></div>
+
+    <section class="passed" id="passed" hidden>
+      <button class="passed-toggle" id="passed-toggle" type="button" aria-expanded="false" aria-controls="passed-list">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Passed checks (<span id="passed-count">0</span>)
+      </button>
+      <ul id="passed-list" hidden></ul>
+    </section>
+
+    <p class="fineprint">Automated checks catch only part of WCAG — always test with a keyboard and a screen reader
+    too. Contrast analysis works from the page's declared CSS, so rendered results can differ slightly.</p>
+  </section>
+</main>
+
+<footer class="footer">AccessLens · runs entirely on your machine · WCAG 2.2 oriented</footer>
+<div id="toast" class="toast" role="status" hidden></div>
+<script src="app.js"></script>
+</body>
+</html>

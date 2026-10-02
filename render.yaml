@@ -1,0 +1,13 @@
+# Render blueprint — deploy with "New +" -> "Blueprint" after pushing to GitHub,
+# or wire these settings manually when creating a Web Service.
+services:
+  - type: web
+    name: accesslens
+    runtime: node
+    plan: free
+    buildCommand: npm ci --omit=dev
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production

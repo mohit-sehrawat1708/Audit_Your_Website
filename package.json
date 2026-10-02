@@ -1,0 +1,17 @@
+{
+  "name": "accesslens",
+  "version": "1.0.0",
+  "description": "Website Accessibility Auditor - paste a URL, get a report on contrast issues, missing alt text, keyboard navigation problems, with fix suggestions.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2",
+    "jsdom": "^24.1.0"
+  }
+}
